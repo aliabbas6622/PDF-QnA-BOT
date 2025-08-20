@@ -1,11 +1,6 @@
 
 import os
 import sys
-
-# Patch sqlite3 with the newer pysqlite3
-__import__("pysqlite3")
-sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
-
 import asyncio
 
 try:
@@ -29,7 +24,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-001")
 
 # Prompt template
 prompt = PromptTemplate(
-    template="This is the text retrieved from the document:\n{docs}\n\nAnd this is the query: {query}",
+    template="You are an ai assistant. This is the text retrieved from the document:\n{docs}\n read the text \nAnd this is the query which a  user asked about the document: {query}",
     input_variables=["docs", "query"]
 )
 
@@ -48,6 +43,7 @@ if uploaded_file:
     st.success("✅ PDF uploaded successfully!")
 
     # Load PDF
+    st.success("Processing Pdf")
     loader = PyPDFLoader(pdf_path)
     docs = loader.load()
 
@@ -79,4 +75,3 @@ if uploaded_file:
 
         st.subheader("Answer:")
         st.write(result.content)
-
