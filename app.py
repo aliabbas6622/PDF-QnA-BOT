@@ -1,6 +1,11 @@
 
 import os
 import sys
+
+# Patch sqlite3 with the newer pysqlite3
+__import__("pysqlite3")
+sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+
 import asyncio
 
 try:
@@ -74,3 +79,4 @@ if uploaded_file:
 
         st.subheader("Answer:")
         st.write(result.content)
+
